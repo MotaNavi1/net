@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>OBS Невидимый плеер</title>
+    <style>
+        /* Полностью скрываем все элементы на странице */
+        body {
+            background-color: transparent;
+            margin: 0;
+            padding: 0;
+        }
+        /* Скрываем сам плеер */
+        audio {
+            display: none;
+            visibility: hidden;
+            width: 0;
+            height: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        Прямая ссылка на ваш MP3 на Google Диске.
+        Важно: для файлов больше 100 МБ этот метод может работать с ошибками.
+    -->
+    <audio autoplay loop id="bgm">
+        <!-- ⚠️ ВМЕСТО ЭТОЙ ССЫЛКИ ВСТАВЬТЕ ВАШУ ПРЯМУЮ ССЫЛКУ НА MP3 -->
+        <source src="https://drive.google.com/uc?export=download&id=1xXosTx0bwTlVJrNfKPM8CcacifEu3P1C" type="audio/mpeg">
+        Ваш браузер не поддерживает аудио тег.
+    </audio>
+
+    <script>
+        // Небольшой скрипт, чтобы убедиться, что плеер точно запустится
+        // и будет перезапускаться в случае ошибки
+        const audio = document.getElementById('bgm');
+        
+        // Пытаемся включить автовоспроизведение (некоторые браузеры блокируют)
+        audio.play().catch(e => {
+            console.log("Автовоспроизведение заблокировано, но в OBS должно работать");
+        });
+        
+        // Если трек прервался из-за ошибки (например, проблемы с сетью) — перезапускаем
+        audio.addEventListener('error', () => {
+            console.log("Ошибка воспроизведения, перезапуск через 1 секунду");
+            setTimeout(() => audio.play(), 1000);
+        });
+    </script>
+</body>
+</html>
